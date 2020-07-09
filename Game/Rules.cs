@@ -1,4 +1,4 @@
-﻿namespace Logic
+﻿namespace Game
 {
     public struct Rules
     {
