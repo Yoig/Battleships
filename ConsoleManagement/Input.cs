@@ -16,7 +16,8 @@ namespace ConsoleManagement
 
         public static string Read(string prompt = null)
         {
-            Console.WriteLine(prompt);
+            if (prompt != null)
+                Console.WriteLine(prompt);
             var input = Console.ReadLine();
             Validate(input);
             return input;

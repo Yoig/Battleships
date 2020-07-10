@@ -1,5 +1,7 @@
 ﻿using System;
 using ConsoleManagement;
+using Logic;
+using LogicInterfaces;
 
 namespace Battleships
 {
@@ -9,6 +11,12 @@ namespace Battleships
         {
             var menu = new Menu();
             var view = new View();
+
+            IGameScreen humanGameScreen = new GameScreen();
+            IGameScreen computerGameScreen = new GameScreen();
+            view.SetObservedGameScreen(humanGameScreen);
+
+            view.StartMessage();
 
             var option = Input.Read();
             switch (Input.GetOptionType(option))
