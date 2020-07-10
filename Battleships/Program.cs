@@ -19,29 +19,33 @@ namespace Battleships
 
             view.Refresh();
 
-            var command = "";
-            command = ReadValidInput(command, view);
 
-            GameLoop(command, view);
+            GameLoop(view, menu);
         }
 
-        private static void GameLoop(string command, View view)
+        private static void GameLoop(View view, Menu menu)
         {
-            switch (Input.GetOptionType(command))
+            while (Data.State != Data.GameState.Ended)
             {
-                case Input.OptionType.Menu:
-                    Console.WriteLine("Chosen menu option");
-                    view.Refresh();
-                    break;
-                case Input.OptionType.Game:
-                    Console.WriteLine("Chosen game option");
-                    view.Refresh();
-                    break;
-                case Input.OptionType.Error:
-                    Console.WriteLine("Error");
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                var command = "";
+                command = ReadValidInput(command, view);
+
+                switch (Input.GetOptionType(command))
+                {
+                    case Input.OptionType.Menu:
+                        menu.Option(command);
+                        view.Refresh();
+                        break;
+                    case Input.OptionType.Game:
+                        Console.WriteLine("Chosen game option");
+                        view.Refresh();
+                        break;
+                    case Input.OptionType.Error:
+                        Console.WriteLine("Error");
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
         }
 

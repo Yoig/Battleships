@@ -15,6 +15,8 @@ namespace ConsoleManagement
 
         public void Refresh()
         {
+            Console.Clear();
+
             switch (Data.State)
             {
                 case Data.GameState.NotStarted:
@@ -33,7 +35,6 @@ namespace ConsoleManagement
 
         public void ShowStartView()
         {
-            Console.Clear();
             Console.WriteLine("Welcome to battleships!");
             Console.WriteLine(Data.Message);
             Console.Write("To start game type ");
@@ -44,7 +45,6 @@ namespace ConsoleManagement
 
         public void ShowOngoingView()
         {
-            Console.Clear();
             Console.WriteLine(Data.Message);
             Console.SetCursorPosition(OwnBoardPosition + 5, MessageSpace);
             Console.WriteLine("Your board");
@@ -60,7 +60,8 @@ namespace ConsoleManagement
 
         public void ShowEndView()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Game has ended!");
+            Console.WriteLine(Data.Winner + "has won!");
         }
 
         private static void PrepareInterior(int boardPosition, IGameboard board)

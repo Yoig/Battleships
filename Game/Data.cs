@@ -14,6 +14,6 @@ namespace Game
 
         public static string Message { get; set; } = null;
         public static GameState State { get; set; } = GameState.NotStarted;
-
+        public static string Winner { get; set; } = "";
     }
 }
