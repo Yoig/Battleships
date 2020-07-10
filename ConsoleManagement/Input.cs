@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Design;
+using System.Linq;
 using System.Threading;
 using Microsoft.VisualBasic;
 
@@ -25,22 +26,22 @@ namespace ConsoleManagement
 
         private static void Validate(string input)
         {
+            if (input.All(Char.IsLetterOrDigit) == false)
+                throw new ArgumentException();
         }
 
         public static OptionType GetOptionType(string option)
         {
+            //todo rework to list of options and performing exist check
             static bool IsMenuType(string s) => s == "start" || s == "exit";
-            static bool IsGameType(string s) => s[0] >= 'a' && s[0] <= 'j' && s[1] >= '0' && s[1] <= '9';
+            static bool IsGameType(string s) => s.Length >= 2 && s[0] >= 'a' && s[0] <= 'j' && s[1] >= '0' && s[1] <= '9';
 
             option = option.ToLower();
+
             if (IsMenuType(option))
                 return OptionType.Menu;
-
             if (IsGameType(option))
-            { 
                 return OptionType.Game;
-            }
-
             return OptionType.Error;
         }
     }

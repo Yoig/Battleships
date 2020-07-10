@@ -13,19 +13,39 @@ namespace ConsoleManagement
             _observedGameScreen = gameScreen;
         }
 
-        public void StartMessage()
+        public void Refresh()
+        {
+            switch (Data.State)
+            {
+                case Data.GameState.NotStarted:
+                    ShowStartView();
+                    break;
+                case Data.GameState.Ongoing:
+                    ShowOngoingView();
+                    break;
+                case Data.GameState.Ended:
+                    ShowEndView();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public void ShowStartView()
         {
             Console.Clear();
             Console.WriteLine("Welcome to battleships!");
+            Console.WriteLine(Data.Message);
             Console.Write("To start game type ");
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("start");
             Console.ForegroundColor = ConsoleColor.White;
         }
 
-        public void Update()
+        public void ShowOngoingView()
         {
             Console.Clear();
+            Console.WriteLine(Data.Message);
             Console.SetCursorPosition(OwnBoardPosition + 5, MessageSpace);
             Console.WriteLine("Your board");
             Console.SetCursorPosition(OpponentBoardPosition + 3, MessageSpace);
@@ -36,6 +56,11 @@ namespace ConsoleManagement
 
             PrepareInterior(OwnBoardPosition, _observedGameScreen.GetOwnBoard());
             PrepareInterior(OpponentBoardPosition, _observedGameScreen.GetOpponentBoard());
+        }
+
+        public void ShowEndView()
+        {
+            throw new NotImplementedException();
         }
 
         private static void PrepareInterior(int boardPosition, IGameboard board)
@@ -76,6 +101,7 @@ namespace ConsoleManagement
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
             Console.ForegroundColor = ConsoleColor.White;
         }
 

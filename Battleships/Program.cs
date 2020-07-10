@@ -1,5 +1,6 @@
 ﻿using System;
 using ConsoleManagement;
+using Game;
 using Logic;
 using LogicInterfaces;
 
@@ -16,18 +17,25 @@ namespace Battleships
             IGameScreen computerGameScreen = new GameScreen();
             view.SetObservedGameScreen(humanGameScreen);
 
-            view.StartMessage();
+            view.Refresh();
 
-            var option = Input.Read();
-            switch (Input.GetOptionType(option))
+            var command = "";
+            command = ReadValidInput(command, view);
+
+            GameLoop(command, view);
+        }
+
+        private static void GameLoop(string command, View view)
+        {
+            switch (Input.GetOptionType(command))
             {
                 case Input.OptionType.Menu:
                     Console.WriteLine("Chosen menu option");
-                    view.Update();
+                    view.Refresh();
                     break;
                 case Input.OptionType.Game:
                     Console.WriteLine("Chosen game option");
-                    view.Update();
+                    view.Refresh();
                     break;
                 case Input.OptionType.Error:
                     Console.WriteLine("Error");
@@ -35,6 +43,21 @@ namespace Battleships
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private static string ReadValidInput(string command, View view)
+        {
+            try
+            {
+                command = Input.Read();
+            }
+            catch (ArgumentException e)
+            {
+                Data.Message = "Wrong command, type again";
+                view.Refresh();
+            }
+
+            return command;
         }
     }
 }
