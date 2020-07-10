@@ -57,22 +57,26 @@ namespace ConsoleManagement
             switch (rawBoard[x, y])
             {
                 case Rules.FieldState.Battleship:
-                    Console.Write("B");
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
+                    Console.Write('#');
                     break;
                 case Rules.FieldState.Empty:
                     break;
                 case Rules.FieldState.Mishit:
-                    Console.Write("M");
+                    Console.Write('-');
                     break;
                 case Rules.FieldState.Hit:
-                    Console.Write("H");
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.Write('H');
                     break;
                 case Rules.FieldState.Sunken:
-                    Console.Write("S");
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.Write('0');
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+            Console.ForegroundColor = ConsoleColor.White;
         }
 
         private static void PrepareBorders(int boardPosition)

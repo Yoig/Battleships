@@ -12,7 +12,7 @@ namespace Battleships
             var menu = new Menu();
             var view = new View();
 
-            IGameScreen humanGameScreen = new GameScreen();
+            IGameScreen humanGameScreen = new GameScreen();     //todo change to player list
             IGameScreen computerGameScreen = new GameScreen();
             view.SetObservedGameScreen(humanGameScreen);
 
