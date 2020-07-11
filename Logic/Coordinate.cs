@@ -114,5 +114,12 @@ namespace Logic
         public int Y { get; private set; }
 
         private string _raw;
+
+        public static double Distance(ICoordinate beginning, ICoordinate end)
+        {
+            var XDifference = Math.Abs(beginning.X - end.X);
+            var YDifference = Math.Abs(beginning.Y - end.Y);
+            return Math.Sqrt(XDifference * XDifference + YDifference * YDifference);
+        }
     }
 }

@@ -12,7 +12,8 @@ namespace Common
             Ended
         }
 
-        public static string Message { get; set; } = null;
+        public static string MessageFirstLine { get; set; } = null;
+        public static string MessageSecondLine { get; set; } = null;
 
         public struct PredefinedMessages
         {
@@ -21,5 +22,6 @@ namespace Common
         public static GameState State { get; set; } = GameState.NotStarted;
         public static IPlayer Winner { get; set; }
         public static Queue<IPlayer> Players { get; set; } = new Queue<IPlayer>();
+        public static IGameScreen ObseGameScreen { get; set; }
     }
 }

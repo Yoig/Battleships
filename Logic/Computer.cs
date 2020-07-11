@@ -19,7 +19,7 @@ namespace Logic
         public Rules.FieldState PlayTurn(string option)
         {
             Thread.Sleep(1000);
-            Data.Message = "play turn computer";
+            //Data.Message = "play turn computer";
             return Rules.FieldState.Mishit;
         }
 
@@ -54,8 +54,6 @@ namespace Logic
                         coordinatesValid = false;
                     }
                 } while (!coordinatesValid);
-
-
             }
         }
 

@@ -13,17 +13,26 @@ namespace Logic
             if (PlaceIsValid(beginning, end, direction) == false)
                 throw new ArgumentException();
             var field = beginning;
-            while ((field.X != end.X) || (field.Y != end.Y))
+            PlaceFields(end, field, direction);
+        }
+
+        private void PlaceFields(ICoordinate end, ICoordinate field, Rules.Direction direction)
+        {
+            do
             {
                 RawBoard[field.X, field.Y] = Rules.FieldState.Battleship;
-                field = field.Move(1, direction);
-            }
+                if((field.X != end.X) || (field.Y != end.Y))
+                    field = field.Move(1, direction);
+            } while ((field.X != end.X) || (field.Y != end.Y));
+
+            //place last field
+            RawBoard[field.X, field.Y] = Rules.FieldState.Battleship;
         }
 
         public bool PlaceIsValid(ICoordinate beginning, ICoordinate end, Rules.Direction direction)
         {
             var field = beginning;
-            while ((field.X != end.X) || (field.Y != end.Y))
+            do
             {
                 try
                 {
@@ -69,8 +78,9 @@ namespace Logic
                     // ignored
                 }
 
-                field = field.Move(1, direction);
-            }
+                if((field.X != end.X) || (field.Y != end.Y))
+                    field = field.Move(1, direction);
+            } while ((field.X != end.X) || (field.Y != end.Y));
             return true;
         }
     }

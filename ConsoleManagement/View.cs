@@ -2,19 +2,18 @@
 using System.Buffers;
 using Common;
 using Game;
-using Logic;
 using LogicInterfaces;
 
 namespace ConsoleManagement
 {
-    public class View
+    public static class View
     {
-        public void SetObservedGameScreen(IGameScreen gameScreen)
+        public static void SetObservedGameScreen(IGameScreen gameScreen)
         {
-            _observedGameScreen = gameScreen;
+            Data.ObseGameScreen = gameScreen;
         }
 
-        public void Refresh()
+        public static void Refresh()
         {
             Console.Clear();
 
@@ -34,19 +33,21 @@ namespace ConsoleManagement
             }
         }
 
-        public void ShowStartView()
+        public static void ShowStartView()
         {
             Console.WriteLine("Welcome to battleships!");
-            Console.WriteLine(Data.Message);
+            Console.WriteLine(Data.MessageFirstLine);
+            Console.WriteLine(Data.MessageSecondLine);
             Console.Write("To start game type ");
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("start");
             Console.ForegroundColor = ConsoleColor.White;
         }
 
-        public void ShowOngoingView()
+        public static void ShowOngoingView()
         {
-            Console.WriteLine(Data.Message);
+            Console.WriteLine(Data.MessageFirstLine);
+            Console.WriteLine(Data.MessageSecondLine);
             Console.SetCursorPosition(OwnBoardPositionX + 5, MessageSpaceY);
             Console.WriteLine("Your board");
             Console.SetCursorPosition(OpponentBoardPositionX + 3, MessageSpaceY);
@@ -55,24 +56,24 @@ namespace ConsoleManagement
             PrepareBorders(OwnBoardPositionX);
             PrepareBorders(OpponentBoardPositionX);
 
-            PrepareInterior(OwnBoardPositionX, _observedGameScreen.OwnBoard);
-            PrepareInterior(OpponentBoardPositionX, _observedGameScreen.OpponentBoard);
+            PrepareInterior(OwnBoardPositionX, Data.ObseGameScreen.OwnBoard);
+            PrepareInterior(OpponentBoardPositionX, Data.ObseGameScreen.OpponentBoard);
 
             Console.SetCursorPosition(0, CommandPositionY);
         }
 
-        public void ShowEndView()
+        public static void ShowEndView()
         {
             Console.WriteLine("Game has ended!");
             Console.WriteLine(Data.Winner + "has won!");
         }
 
-        private void PrepareInterior(int boardPosition, IGameboard board)
+        private static void PrepareInterior(int boardPosition, IGameboard board)
         {
-            for (var y = 0; y < 10; y++)
+            for (var x = 0; x < 10; x++)
             {
-                Console.SetCursorPosition(boardPosition, MessageSpaceY + 2 + y);
-                for (var x = 0; x < 10; x++)
+                Console.SetCursorPosition(boardPosition, MessageSpaceY + 2 + x);
+                for (var y = 0; y < 10; y++)
                 {
                     DrawField(board.RawBoard, x, y);
                     Console.Write(" ");
@@ -89,6 +90,7 @@ namespace ConsoleManagement
                     Console.Write('#');
                     break;
                 case Rules.FieldState.Empty:
+                    Console.Write(' ');
                     break;
                 case Rules.FieldState.Mishit:
                     Console.Write('-');
@@ -128,7 +130,5 @@ namespace ConsoleManagement
         private const int OpponentBoardPositionX = 30;
         private const int MessageSpaceY = 2;
         private const int CommandPositionY = MessageSpaceY + 2 + 10 + 1;
-
-        private IGameScreen _observedGameScreen;
     }
 }

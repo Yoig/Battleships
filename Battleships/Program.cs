@@ -16,13 +16,12 @@ namespace Battleships
         private static void Main(string[] args)
         {
             var menu = new Menu();
-            var view = new View();
 
             DefineBattleships();
 
             IGameScreen humanGameScreen = new GameScreen();
             IGameScreen computerGameScreen = new GameScreen();
-            view.SetObservedGameScreen(computerGameScreen);
+            View.SetObservedGameScreen(humanGameScreen);
 
             IPlayer humanPlayer = new Human(humanGameScreen);
             IPlayer computerPlayer = new Computer(computerGameScreen);
@@ -30,9 +29,9 @@ namespace Battleships
             Data.Players.Enqueue(humanPlayer);
             Data.Players.Enqueue(computerPlayer);
 
-            view.Refresh();
+            View.Refresh();
 
-            GameLoop(view, menu);
+            GameLoop(menu);
         }
 
         private static void DefineBattleships()
@@ -43,23 +42,23 @@ namespace Battleships
             Rules.Battleships.Add("Submarine", 1);
         }
 
-        private static void GameLoop(View view, Menu menu)
+        private static void GameLoop(Menu menu)
         {
             while (Data.State != Data.GameState.Ended)
             {
                 if (Data.Players.Peek() is Human)
                 {
-                    var command = ReadValidInput(view);
+                    var command = ReadValidInput();
                     switch (Input.GetOptionType(command))
                     {
                         case Input.OptionType.Menu:
                             menu.Option(command);
                             break;
                         case Input.OptionType.Game:
-                            ManageTurn(view, command);
+                            ManageTurn(command);
                             break;
                         case Input.OptionType.Error:
-                            Data.Message = Data.PredefinedMessages.WrongInput;
+                            Data.MessageFirstLine = Data.PredefinedMessages.WrongInput;
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -67,13 +66,13 @@ namespace Battleships
                 }
                 else
                 {
-                    ManageTurn(view, "");
+                    ManageTurn("");
                 }
-                view.Refresh();
+                View.Refresh();
             }
         }
 
-        private static void ManageTurn(View view, string command)
+        private static void ManageTurn(string command)
         {
             if (Data.State != Data.GameState.Ongoing)
                 return;
@@ -91,7 +90,7 @@ namespace Battleships
                     throw new ArgumentOutOfRangeException();
             }
 
-            view.Refresh();
+            View.Refresh();
         }
 
         private static void SetOpponents(IPlayer humanPlayer, IPlayer computerPlayer)
@@ -100,7 +99,7 @@ namespace Battleships
             computerPlayer.SetOpponent(humanPlayer);
         }
 
-        private static string ReadValidInput(View view)
+        private static string ReadValidInput()
         {
             var command = "";
             try
@@ -109,8 +108,8 @@ namespace Battleships
             }
             catch (ArgumentException e)
             {
-                Data.Message = Data.PredefinedMessages.WrongInput;
-                view.Refresh();
+                Data.MessageFirstLine = Data.PredefinedMessages.WrongInput;
+                View.Refresh();
             }
 
             return command;

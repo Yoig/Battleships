@@ -17,10 +17,21 @@ namespace ConsoleManagement
 
         public static string Read(string prompt = null)
         {
-            if (prompt != null)
-                Console.WriteLine(prompt);
+            if(prompt != null)
+                Console.Write(prompt + ": ");
             var input = Console.ReadLine();
             Validate(input);
+            return input;
+        }
+
+        public static string ReadCoordinate(string prompt = null)
+        {
+            if (prompt != null)
+                Console.Write(prompt + ": ");
+            var input = Console.ReadLine();
+            Validate(input);
+            if (IsGameType(input) == false)
+                throw new ArgumentException();
             return input;
         }
 
@@ -32,10 +43,6 @@ namespace ConsoleManagement
 
         public static OptionType GetOptionType(string option)
         {
-            //todo rework to list of options and performing exist check
-            static bool IsMenuType(string s) => s == "start" || s == "exit";
-            static bool IsGameType(string s) => s.Length == 2 && s[0] >= 'a' && s[0] <= 'j' && s[1] >= '0' && s[1] <= '9';
-
             option = option.ToLower();
 
             if (IsMenuType(option))
@@ -44,5 +51,9 @@ namespace ConsoleManagement
                 return OptionType.Game;
             return OptionType.Error;
         }
+
+        private static bool IsMenuType(string s) => s == "start" || s == "exit";
+
+        private static bool IsGameType(string s) => s.Length == 2 && s[0] >= 'a' && s[0] <= 'j' && s[1] >= '0' && s[1] <= '9';
     }
 }
