@@ -9,8 +9,10 @@ namespace Logic
         public Rules.FieldState[,] RawBoard { get; set; } = new Rules.FieldState[Rules.BoardSize, Rules.BoardSize];
         public void PlaceBattleship(ICoordinate beginning, ICoordinate end)
         {
-            var field = beginning;
             var direction = Coordinate.DetermineDirection(end, beginning);
+            if (PlaceIsValid(beginning, end, direction) == false)
+                throw new ArgumentException();
+            var field = beginning;
             while ((field.X != end.X) || (field.Y != end.Y))
             {
                 RawBoard[field.X, field.Y] = Rules.FieldState.Battleship;
@@ -18,24 +20,58 @@ namespace Logic
             }
         }
 
-        public Gameboard()
+        public bool PlaceIsValid(ICoordinate beginning, ICoordinate end, Rules.Direction direction)
         {
-            //temporary for testing
-            RawBoard[0, 0] = Rules.FieldState.Battleship;
-            //RawBoard[0, 1] = Rules.FieldState.Battleship;
-            //RawBoard[0, 2] = Rules.FieldState.Battleship;
+            var field = beginning;
+            while ((field.X != end.X) || (field.Y != end.Y))
+            {
+                try
+                {
+                    var upper = field.MoveUp(1);
+                    if (RawBoard[upper.X, upper.Y] == Rules.FieldState.Battleship)
+                        return false;
+                }
+                catch (Exception e)
+                {
+                    // ignored
+                }
 
-            //RawBoard[1, 0] = Rules.FieldState.Mishit;
-            //RawBoard[1, 1] = Rules.FieldState.Mishit;
-            //RawBoard[1, 2] = Rules.FieldState.Mishit;
+                try
+                {
+                    var left = field.MoveLeft(1);
+                    if (RawBoard[left.X, left.Y] == Rules.FieldState.Battleship)
+                        return false;
+                }
+                catch (Exception e)
+                {
+                    // ignored
+                }
 
-            //RawBoard[2, 0] = Rules.FieldState.Hit;
-            //RawBoard[2, 1] = Rules.FieldState.Hit;
-            //RawBoard[2, 2] = Rules.FieldState.Hit;
+                try
+                {
+                    var lower = field.MoveDown(1);
+                    if (RawBoard[lower.X, lower.Y] == Rules.FieldState.Battleship)
+                        return false;
+                }
+                catch (Exception e)
+                {
+                    // ignored
+                }
 
-            //RawBoard[3, 0] = Rules.FieldState.Sunken;
-            //RawBoard[3, 1] = Rules.FieldState.Sunken;
-            //RawBoard[3, 2] = Rules.FieldState.Sunken;
+                try
+                {
+                    var right = field.MoveRight(1);
+                    if (RawBoard[right.X, right.Y] == Rules.FieldState.Battleship)
+                        return false;
+                }
+                catch (Exception e)
+                {
+                    // ignored
+                }
+
+                field = field.Move(1, direction);
+            }
+            return true;
         }
     }
 }

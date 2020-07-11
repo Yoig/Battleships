@@ -7,8 +7,13 @@ namespace Logic
 {
     public class Human : IPlayer
     {
+        public Human(IGameScreen screen)
+        {
+            Screen = screen;
+        }
+
         public IPlayer Opponent { get; private set; }
-        public IGameScreen Screen { get; } = new GameScreen();
+        public IGameScreen Screen { get; }
 
         public Rules.FieldState PlayTurn(string option)
         {

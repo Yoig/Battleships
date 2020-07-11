@@ -20,15 +20,15 @@ namespace Battleships
 
             DefineBattleships();
 
-            IPlayer humanPlayer = new Human();
-            IPlayer computerPlayer = new Computer();
-            SetOpponents(humanPlayer, computerPlayer);
-            Data.Players.Enqueue(humanPlayer);
-            Data.Players.Enqueue(computerPlayer);
-
             IGameScreen humanGameScreen = new GameScreen();
             IGameScreen computerGameScreen = new GameScreen();
             view.SetObservedGameScreen(computerGameScreen);
+
+            IPlayer humanPlayer = new Human(humanGameScreen);
+            IPlayer computerPlayer = new Computer(computerGameScreen);
+            SetOpponents(humanPlayer, computerPlayer);
+            Data.Players.Enqueue(humanPlayer);
+            Data.Players.Enqueue(computerPlayer);
 
             view.Refresh();
 

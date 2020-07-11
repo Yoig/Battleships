@@ -8,8 +8,13 @@ namespace Logic
 {
     public class Computer : IPlayer
     {
+        public Computer(IGameScreen screen)
+        {
+            Screen = screen;
+        }
+
         public IPlayer Opponent { get; private set; }
-        public IGameScreen Screen { get; } = new GameScreen();
+        public IGameScreen Screen { get; }
 
         public Rules.FieldState PlayTurn(string option)
         {
@@ -27,26 +32,30 @@ namespace Logic
         {
             foreach (var battleship in Rules.Battleships)
             {
-                bool placedProperly;
+                bool coordinatesValid;
                 ICoordinate beginning;
                 ICoordinate end = new Coordinate();
                 do
                 {
-                    placedProperly = true;
+                    coordinatesValid = true;
                     beginning = Coordinate.Random();
                     var random = new Random();
                     try
                     {
-                        end = beginning.Move(battleship.Value - 1, (Rules.Direction)random.Next(0, 4));
+                        end = beginning.Move(battleship.Value - 1, (Rules.Direction) random.Next(0, 4));
+                        Screen.PlaceBattleship(beginning, end);
                     }
                     catch (ArgumentOutOfRangeException e)
                     {
-                        placedProperly = false;
+                        coordinatesValid = false;
                     }
-                } while (!placedProperly);
-                Console.WriteLine("Random coordinates: beg = " + beginning + " end = " + end);
-                Thread.Sleep(1000);
-                Screen.PlaceBattleship(beginning, end);
+                    catch (ArgumentException e)
+                    {
+                        coordinatesValid = false;
+                    }
+                } while (!coordinatesValid);
+
+
             }
         }
 

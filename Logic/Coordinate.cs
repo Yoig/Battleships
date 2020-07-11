@@ -17,6 +17,13 @@ namespace Logic
             Y = raw[1] - '0';
         }
 
+        public Coordinate(Coordinate coordinate)
+        {
+            this._raw = coordinate._raw;
+            this.X = coordinate.X;
+            this.Y = coordinate.Y;
+        }
+
         public static Rules.Direction DetermineDirection(ICoordinate target, ICoordinate relativeTo)
         {
             if (target.Y == relativeTo.Y)

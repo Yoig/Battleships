@@ -2,8 +2,8 @@
 {
     public interface IGameScreen
     {
-        IGameboard OwnBoard { get; set; }
-        IGameboard OpponentBoard { get; set; }
+        IGameboard OwnBoard { get; }
+        IGameboard OpponentBoard { get; }
         void PlaceBattleship(ICoordinate beginning, ICoordinate end);
     }
 }
