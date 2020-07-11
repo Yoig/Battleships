@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using ConsoleManagement;
 using Game;
 using Logic;
@@ -19,7 +20,6 @@ namespace Battleships
 
             view.Refresh();
 
-
             GameLoop(view, menu);
         }
 
@@ -27,37 +27,36 @@ namespace Battleships
         {
             while (Data.State != Data.GameState.Ended)
             {
-                var command = "";
-                command = ReadValidInput(command, view);
-
+                var command = ReadValidInput(view);
                 switch (Input.GetOptionType(command))
                 {
                     case Input.OptionType.Menu:
                         menu.Option(command);
-                        view.Refresh();
                         break;
                     case Input.OptionType.Game:
-                        Console.WriteLine("Chosen game option");
-                        view.Refresh();
+                        if (Data.State != Data.GameState.Ongoing)
+                            break;
                         break;
                     case Input.OptionType.Error:
-                        Console.WriteLine("Error");
+                        Data.Message = Data.PredefinedMessages.WrongInput;
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
+                view.Refresh();
             }
         }
 
-        private static string ReadValidInput(string command, View view)
+        private static string ReadValidInput(View view)
         {
+            var command = "";
             try
             {
                 command = Input.Read();
             }
             catch (ArgumentException e)
             {
-                Data.Message = "Wrong command, type again";
+                Data.Message = Data.PredefinedMessages.WrongInput;
                 view.Refresh();
             }
 
