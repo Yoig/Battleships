@@ -4,19 +4,12 @@ namespace Logic
 {
     public class GameScreen : IGameScreen
     {
+        public IGameboard OwnBoard { get; set; } = new Gameboard();
+        public IGameboard OpponentBoard { get; set; } = new Gameboard();
 
-
-        private IGameboard _ownBoard = new Gameboard();
-        private IGameboard _opponentBoard = new Gameboard();
-
-        public IGameboard GetOwnBoard()
+        public void PlaceBattleship(ICoordinate beginning, ICoordinate end)
         {
-            return _ownBoard;
-        }
-
-        public IGameboard GetOpponentBoard()
-        {
-            return _opponentBoard;
+            OwnBoard.PlaceBattleship(beginning, end);
         }
     }
 }

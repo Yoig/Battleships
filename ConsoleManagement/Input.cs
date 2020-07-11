@@ -34,7 +34,7 @@ namespace ConsoleManagement
         {
             //todo rework to list of options and performing exist check
             static bool IsMenuType(string s) => s == "start" || s == "exit";
-            static bool IsGameType(string s) => s.Length >= 2 && s[0] >= 'a' && s[0] <= 'j' && s[1] >= '0' && s[1] <= '9';
+            static bool IsGameType(string s) => s.Length == 2 && s[0] >= 'a' && s[0] <= 'j' && s[1] >= '0' && s[1] <= '9';
 
             option = option.ToLower();
 

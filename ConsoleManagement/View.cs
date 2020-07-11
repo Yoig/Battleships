@@ -47,16 +47,18 @@ namespace ConsoleManagement
         public void ShowOngoingView()
         {
             Console.WriteLine(Data.Message);
-            Console.SetCursorPosition(OwnBoardPosition + 5, MessageSpace);
+            Console.SetCursorPosition(OwnBoardPositionX + 5, MessageSpaceY);
             Console.WriteLine("Your board");
-            Console.SetCursorPosition(OpponentBoardPosition + 3, MessageSpace);
+            Console.SetCursorPosition(OpponentBoardPositionX + 3, MessageSpaceY);
             Console.WriteLine("Opponent board");
 
-            PrepareBorders(OwnBoardPosition);
-            PrepareBorders(OpponentBoardPosition);
+            PrepareBorders(OwnBoardPositionX);
+            PrepareBorders(OpponentBoardPositionX);
 
-            PrepareInterior(OwnBoardPosition, _observedGameScreen.GetOwnBoard());
-            PrepareInterior(OpponentBoardPosition, _observedGameScreen.GetOpponentBoard());
+            PrepareInterior(OwnBoardPositionX, _observedGameScreen.OwnBoard);
+            PrepareInterior(OpponentBoardPositionX, _observedGameScreen.OpponentBoard);
+
+            Console.SetCursorPosition(0, CommandPositionY);
         }
 
         public void ShowEndView()
@@ -65,15 +67,14 @@ namespace ConsoleManagement
             Console.WriteLine(Data.Winner + "has won!");
         }
 
-        private static void PrepareInterior(int boardPosition, IGameboard board)
+        private void PrepareInterior(int boardPosition, IGameboard board)
         {
-            var rawBoard = board.RawBoard;
             for (var y = 0; y < 10; y++)
             {
-                Console.SetCursorPosition(boardPosition, MessageSpace + 2 + y);
+                Console.SetCursorPosition(boardPosition, MessageSpaceY + 2 + y);
                 for (var x = 0; x < 10; x++)
                 {
-                    DrawField(rawBoard, x, y);
+                    DrawField(board.RawBoard, x, y);
                     Console.Write(" ");
                 }
             }
@@ -107,26 +108,27 @@ namespace ConsoleManagement
             Console.ForegroundColor = ConsoleColor.White;
         }
 
-        private static void PrepareBorders(int boardPosition)
+        private static void PrepareBorders(int boardPositionX)
         {
             Console.BackgroundColor = ConsoleColor.DarkGray;
-            for (var j = 0; j < 10; j += 1)
+            for (var j = 0; j < 10; j++)
             {
-                Console.SetCursorPosition(boardPosition + 2 * j, MessageSpace + 1);
-                Console.Write((char) ('A' + j));
+                Console.SetCursorPosition(boardPositionX + 2 * j, MessageSpaceY + 1);
+                Console.Write(j);
                 Console.Write(" ");
 
-                Console.SetCursorPosition(boardPosition - 2, MessageSpace + 2 + j);
-                Console.Write(j);
+                Console.SetCursorPosition(boardPositionX - 2, MessageSpaceY + 2 + j);
+                Console.Write((char)('A' + j));
             }
 
             Console.BackgroundColor = ConsoleColor.Black;
         }
 
-        private const int OwnBoardPosition = 3;
-        private const int OpponentBoardPosition = 30;
-        private const int MessageSpace = 2;
+        private const int OwnBoardPositionX = 3;
+        private const int OpponentBoardPositionX = 30;
+        private const int MessageSpaceY = 2;
+        private const int CommandPositionY = MessageSpaceY + 2 + 10 + 1;
 
-        private IGameScreen _observedGameScreen = null;
+        private IGameScreen _observedGameScreen;
     }
 }

@@ -18,20 +18,29 @@ namespace Battleships
             var menu = new Menu();
             var view = new View();
 
+            DefineBattleships();
+
             IPlayer humanPlayer = new Human();
             IPlayer computerPlayer = new Computer();
             SetOpponents(humanPlayer, computerPlayer);
-            //var players = new Queue<IPlayer>();
             Data.Players.Enqueue(humanPlayer);
             Data.Players.Enqueue(computerPlayer);
 
             IGameScreen humanGameScreen = new GameScreen();
             IGameScreen computerGameScreen = new GameScreen();
-            view.SetObservedGameScreen(humanGameScreen);
+            view.SetObservedGameScreen(computerGameScreen);
 
             view.Refresh();
 
             GameLoop(view, menu);
+        }
+
+        private static void DefineBattleships()
+        {
+            Rules.Battleships.Add("Carrier", 4);
+            Rules.Battleships.Add("Cruiser", 3);
+            Rules.Battleships.Add("Destroyer", 2);
+            Rules.Battleships.Add("Submarine", 1);
         }
 
         private static void GameLoop(View view, Menu menu)

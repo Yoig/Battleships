@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Game
 {
@@ -14,6 +15,16 @@ namespace Game
             Last
         }
 
+        public enum Direction
+        {
+            Up,
+            Down,
+            Right,
+            Left,
+            Error
+        }
+
         public static int BoardSize { get; } = 10;
+        public static Dictionary<string, int> Battleships { get; set; } = new Dictionary<string, int>();
     }
 }
