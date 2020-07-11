@@ -10,7 +10,8 @@ namespace Game
             Battleship,
             Mishit,
             Hit,
-            Sunken
+            Sunken,
+            Last
         }
 
         public static int BoardSize { get; } = 10;

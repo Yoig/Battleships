@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Common;
 using Game;
 
 namespace Battleships
@@ -18,6 +20,15 @@ namespace Battleships
         private void Start()
         {
             Data.State = Data.GameState.Ongoing;
+            SetupPlayers();
+        }
+
+        private void SetupPlayers()
+        {
+            foreach (var player in Data.Players)
+            {
+                player.Setup();
+            }
         }
 
         private void Exit()

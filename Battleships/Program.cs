@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
+using Common;
 using ConsoleManagement;
 using Game;
 using Logic;
@@ -14,7 +18,14 @@ namespace Battleships
             var menu = new Menu();
             var view = new View();
 
-            IGameScreen humanGameScreen = new GameScreen();     //todo change to player list
+            IPlayer humanPlayer = new Human();
+            IPlayer computerPlayer = new Computer();
+            SetOpponents(humanPlayer, computerPlayer);
+            //var players = new Queue<IPlayer>();
+            Data.Players.Enqueue(humanPlayer);
+            Data.Players.Enqueue(computerPlayer);
+
+            IGameScreen humanGameScreen = new GameScreen();
             IGameScreen computerGameScreen = new GameScreen();
             view.SetObservedGameScreen(humanGameScreen);
 
@@ -27,24 +38,57 @@ namespace Battleships
         {
             while (Data.State != Data.GameState.Ended)
             {
-                var command = ReadValidInput(view);
-                switch (Input.GetOptionType(command))
+                if (Data.Players.Peek() is Human)
                 {
-                    case Input.OptionType.Menu:
-                        menu.Option(command);
-                        break;
-                    case Input.OptionType.Game:
-                        if (Data.State != Data.GameState.Ongoing)
+                    var command = ReadValidInput(view);
+                    switch (Input.GetOptionType(command))
+                    {
+                        case Input.OptionType.Menu:
+                            menu.Option(command);
                             break;
-                        break;
-                    case Input.OptionType.Error:
-                        Data.Message = Data.PredefinedMessages.WrongInput;
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
+                        case Input.OptionType.Game:
+                            ManageTurn(view, command);
+                            break;
+                        case Input.OptionType.Error:
+                            Data.Message = Data.PredefinedMessages.WrongInput;
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                }
+                else
+                {
+                    ManageTurn(view, "");
                 }
                 view.Refresh();
             }
+        }
+
+        private static void ManageTurn(View view, string command)
+        {
+            if (Data.State != Data.GameState.Ongoing)
+                return;
+            var outcome = Data.Players.Peek().PlayTurn(command);
+            switch (outcome)
+            {
+                case Rules.FieldState.Mishit:
+                    Data.Players.Enqueue(Data.Players.Dequeue());
+                    break;
+                case Rules.FieldState.Last:
+                    Data.State = Data.GameState.Ended;
+                    Data.Winner = Data.Players.Peek();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            view.Refresh();
+        }
+
+        private static void SetOpponents(IPlayer humanPlayer, IPlayer computerPlayer)
+        {
+            humanPlayer.SetOpponent(computerPlayer);
+            computerPlayer.SetOpponent(humanPlayer);
         }
 
         private static string ReadValidInput(View view)

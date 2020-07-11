@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj" />
     <ProjectReference Include="..\ConsoleManagement\ConsoleManagement.csproj" />
     <ProjectReference Include="..\LogicInterfaces\LogicInterfaces.csproj" />
     <ProjectReference Include="..\Logic\Logic.csproj" />

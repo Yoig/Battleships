@@ -1,7 +1,7 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Collections.Generic;
+using LogicInterfaces;
 
-namespace Game
+namespace Common
 {
     public static class Data
     {
@@ -19,6 +19,7 @@ namespace Game
             public const string WrongInput = "Wrong command! Please, type again";
         }
         public static GameState State { get; set; } = GameState.NotStarted;
-        public static string Winner { get; set; } = "";
+        public static IPlayer Winner { get; set; }
+        public static Queue<IPlayer> Players { get; set; } = new Queue<IPlayer>();
     }
 }
