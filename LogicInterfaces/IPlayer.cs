@@ -7,8 +7,9 @@ namespace LogicInterfaces
     {
         IPlayer Opponent { get; }
         IGameScreen Screen { get; }
-        Rules.FieldState PlayTurn(string option);
+        Rules.FieldType PlayTurn(string option);
         void Setup();
         void SetOpponent(IPlayer opponent);
+        Rules.FieldType ReceiveShot(ICoordinate coordinate);
     }
 }

@@ -15,8 +15,6 @@ namespace Battleships
     {
         private static void Main(string[] args)
         {
-            var menu = new Menu();
-
             DefineBattleships();
 
             IGameScreen humanGameScreen = new GameScreen();
@@ -31,7 +29,7 @@ namespace Battleships
 
             View.Refresh();
 
-            GameLoop(menu);
+            GameLoop();
         }
 
         private static void DefineBattleships()
@@ -42,7 +40,7 @@ namespace Battleships
             Rules.Battleships.Add("Submarine", 1);
         }
 
-        private static void GameLoop(Menu menu)
+        private static void GameLoop()
         {
             while (Data.State != Data.GameState.Ended)
             {
@@ -52,7 +50,7 @@ namespace Battleships
                     switch (Input.GetOptionType(command))
                     {
                         case Input.OptionType.Menu:
-                            menu.Option(command);
+                            Menu.Option(command);
                             break;
                         case Input.OptionType.Game:
                             ManageTurn(command);
@@ -75,16 +73,22 @@ namespace Battleships
         private static void ManageTurn(string command)
         {
             if (Data.State != Data.GameState.Ongoing)
+            {
+                Data.MessageFirstLine = "Game has not yet began! To start it type start";
                 return;
+            }
             var outcome = Data.Players.Peek().PlayTurn(command);
             switch (outcome)
             {
-                case Rules.FieldState.Mishit:
+                case Rules.FieldType.Mishit:
                     Data.Players.Enqueue(Data.Players.Dequeue());
                     break;
-                case Rules.FieldState.Last:
+                case Rules.FieldType.Last:
                     Data.State = Data.GameState.Ended;
                     Data.Winner = Data.Players.Peek();
+                    View.Refresh();
+                    Thread.Sleep(4000);
+                    Menu.Exit();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

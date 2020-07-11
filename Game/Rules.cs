@@ -5,14 +5,15 @@ namespace Game
 {
     public struct Rules
     {
-        public enum FieldState
+        public enum FieldType
         {
             Empty,
             Battleship,
             Mishit,
             Hit,
             Sunken,
-            Last
+            Last,
+            Error
         }
 
         public enum Direction

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Common;
+using ConsoleManagement;
 using Game;
 
 namespace Battleships
 {
-    internal class Menu
+    internal static class Menu
     {
-        public void Option(string option)
+        public static void Option(string option)
         {
             if(option.ToLower() == "start")
                 Start();
@@ -17,21 +18,23 @@ namespace Battleships
                 Exit();
         }
 
-        private void Start()
+        public static void Start()
         {
             Data.State = Data.GameState.Ongoing;
             SetupPlayers();
         }
 
-        private void SetupPlayers()
+        private static void SetupPlayers()
         {
             foreach (var player in Data.Players)
             {
                 player.Setup();
             }
+            Data.MessageFirstLine = "Setup complete! To play, type coordinates to shoot at";
+            View.Refresh();
         }
 
-        private void Exit()
+        public static void Exit()
         {
             Data.State = Data.GameState.Ended;
         }

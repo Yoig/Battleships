@@ -38,10 +38,7 @@ namespace ConsoleManagement
             Console.WriteLine("Welcome to battleships!");
             Console.WriteLine(Data.MessageFirstLine);
             Console.WriteLine(Data.MessageSecondLine);
-            Console.Write("To start game type ");
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("start");
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("To start game type start");
         }
 
         public static void ShowOngoingView()
@@ -81,25 +78,25 @@ namespace ConsoleManagement
             }
         }
 
-        private static void DrawField(Rules.FieldState[,] rawBoard, int x, int y)
+        private static void DrawField(Rules.FieldType[,] rawBoard, int x, int y)
         {
             switch (rawBoard[x, y])
             {
-                case Rules.FieldState.Battleship:
+                case Rules.FieldType.Battleship:
                     Console.ForegroundColor = ConsoleColor.DarkGreen;
                     Console.Write('#');
                     break;
-                case Rules.FieldState.Empty:
+                case Rules.FieldType.Empty:
                     Console.Write(' ');
                     break;
-                case Rules.FieldState.Mishit:
+                case Rules.FieldType.Mishit:
                     Console.Write('-');
                     break;
-                case Rules.FieldState.Hit:
+                case Rules.FieldType.Hit:
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
                     Console.Write('H');
                     break;
-                case Rules.FieldState.Sunken:
+                case Rules.FieldType.Sunken:
                     Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.Write('0');
                     break;

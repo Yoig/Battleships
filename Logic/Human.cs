@@ -16,9 +16,29 @@ namespace Logic
         public IPlayer Opponent { get; private set; }
         public IGameScreen Screen { get; }
 
-        public Rules.FieldState PlayTurn(string option)
+        public Rules.FieldType PlayTurn(string option)
         {
-            return Rules.FieldState.Mishit;
+            var coordinate = new Coordinate(option);
+            var shotResult = Opponent.ReceiveShot(coordinate);
+            switch (shotResult)
+            {
+                case Rules.FieldType.Mishit:
+                    Data.MessageFirstLine = "Mishit!";
+                    break;
+                case Rules.FieldType.Hit:
+                    Data.MessageFirstLine = "Opponent's battleship hit!";
+                    break;
+                case Rules.FieldType.Sunken:
+                    Data.MessageFirstLine = "Opponent's battleship destroyed!";
+                    break;
+                case Rules.FieldType.Last:
+                    Data.MessageFirstLine = "That was last battleship!";
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            return shotResult;
         }
 
         public void Setup()
@@ -85,6 +105,11 @@ namespace Logic
         public void SetOpponent(IPlayer opponent)
         {
             Opponent = opponent;
+        }
+
+        public Rules.FieldType ReceiveShot(ICoordinate coordinate)
+        {
+            return Screen.receiveShot(coordinate);
         }
     }
 }

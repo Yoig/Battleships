@@ -16,11 +16,10 @@ namespace Logic
         public IPlayer Opponent { get; private set; }
         public IGameScreen Screen { get; }
 
-        public Rules.FieldState PlayTurn(string option)
+        public Rules.FieldType PlayTurn(string option)
         {
             Thread.Sleep(1000);
-            //Data.Message = "play turn computer";
-            return Rules.FieldState.Mishit;
+            throw new NotImplementedException();
         }
 
         public void Setup()
@@ -60,6 +59,11 @@ namespace Logic
         public void SetOpponent(IPlayer opponent)
         {
             Opponent = opponent;
+        }
+
+        public Rules.FieldType ReceiveShot(ICoordinate coordinate)
+        {
+            return Screen.receiveShot(coordinate);
         }
     }
 }
