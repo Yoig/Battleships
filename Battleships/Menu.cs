@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
+﻿using System.ComponentModel;
 using Common;
 using ConsoleManagement;
-using Game;
 using LogicInterfaces;
 
 namespace Battleships
@@ -17,12 +13,31 @@ namespace Battleships
                 Start();
             if(option.ToLower() == "exit")
                 Exit();
+            if(option.ToLower() == "help")
+                Help();
+            if (option.ToLower() == "back")
+                Back();
+        }
+
+        private static void Back()
+        {
+            if (Data.State == Data.GameState.Help)
+                Data.State = Data.GameState.Ongoing;
         }
 
         public static void Start()
         {
-            Data.State = Data.GameState.Ongoing;
-            SetupPlayers();
+            if (Data.Started == false)
+            {
+                Data.State = Data.GameState.Ongoing; 
+                Data.Started = true;
+                SetupPlayers();
+            }
+        }
+
+        public static void Help()
+        {
+            Data.State = Data.GameState.Help;
         }
 
         private static void SetupPlayers()

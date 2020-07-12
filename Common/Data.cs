@@ -9,7 +9,8 @@ namespace Common
         {
             NotStarted,
             Ongoing,
-            Ended
+            Ended,
+            Help
         }
 
         public static string MessageFirstLine { get; set; } = null;
@@ -23,5 +24,6 @@ namespace Common
         public static IPlayer Winner { get; set; } = null;
         public static Queue<IPlayer> Players { get; set; } = new Queue<IPlayer>();
         public static IGameScreen ObservedGameScreen { get; set; }
+        public static bool Started { get; set; } = false;
     }
 }

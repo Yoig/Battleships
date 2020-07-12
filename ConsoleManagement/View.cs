@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Buffers;
 using Common;
 using Game;
 using LogicInterfaces;
@@ -28,12 +27,29 @@ namespace ConsoleManagement
                 case Data.GameState.Ended:
                     ShowEndView();
                     break;
+                case Data.GameState.Help:
+                    ShowHelpView();
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
 
-        public static void ShowStartView()
+        private static void ShowHelpView()
+        {
+            Console.WriteLine("Help screen");
+            Console.WriteLine("To start game type start");
+            Console.WriteLine("To end game type exit");
+            Console.WriteLine();
+            Console.WriteLine("After game starts you will need to place ships.");
+            Console.WriteLine("Ship length is displayed on top.");
+            Console.WriteLine("When all battleships are placed, you can play game.");
+            Console.WriteLine("To play game type coordinates in form of letter + number e.g. a6");
+            Console.WriteLine();
+            Console.WriteLine("To exit help screen type back");
+        }
+
+        private static void ShowStartView()
         {
             Console.WriteLine("Welcome to battleships!");
             Console.WriteLine(Data.MessageFirstLine);
@@ -41,7 +57,7 @@ namespace ConsoleManagement
             Console.WriteLine("To start game type start");
         }
 
-        public static void ShowOngoingView()
+        private static void ShowOngoingView()
         {
             Console.WriteLine(Data.MessageFirstLine);
             Console.WriteLine(Data.MessageSecondLine);
@@ -59,7 +75,7 @@ namespace ConsoleManagement
             Console.SetCursorPosition(0, CommandPositionY);
         }
 
-        public static void ShowEndView()
+        private static void ShowEndView()
         {
             Console.WriteLine("Game has ended!");
             if (Data.Winner != null)
