@@ -20,23 +20,6 @@ namespace Logic
         {
             var coordinate = new Coordinate(option);
             var shotResult = Opponent.ReceiveShot(coordinate);
-            switch (shotResult)
-            {
-                case Rules.FieldType.Mishit:
-                    Data.MessageFirstLine = "Mishit!";
-                    break;
-                case Rules.FieldType.Hit:
-                    Data.MessageFirstLine = "Opponent's battleship hit!";
-                    break;
-                case Rules.FieldType.Sunken:
-                    Data.MessageFirstLine = "Opponent's battleship destroyed!";
-                    break;
-                case Rules.FieldType.Last:
-                    Data.MessageFirstLine = "That was last battleship!";
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
             GameScreen.MarkField(coordinate, shotResult);
             return shotResult;
         }

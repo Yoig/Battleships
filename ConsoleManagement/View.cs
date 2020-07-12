@@ -62,7 +62,9 @@ namespace ConsoleManagement
         public static void ShowEndView()
         {
             Console.WriteLine("Game has ended!");
-            Console.WriteLine((Data.Winner.ToString() ?? "Nobody") + " has won!");
+            if (Data.Winner != null)
+                Console.WriteLine(Data.Winner + " has won!");
+            Console.WriteLine("Nobody has won!");
         }
 
         private static void PrepareInterior(int boardPosition, IGameboard board)

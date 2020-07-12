@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Threading;
 using Common;
+using ConsoleManagement;
 using Game;
 using LogicInterfaces;
 
@@ -25,7 +26,9 @@ namespace Logic
 
         public Rules.FieldType PlayTurn(string option)
         {
-            Thread.Sleep(100);
+            Data.MessageSecondLine = "Computer is making choice...";
+            View.Refresh();
+            Thread.Sleep(3000);
             ICoordinate coordinate = MakeShot();
             _previousShotCoordinate = coordinate;
             var shotResult = Opponent.ReceiveShot(coordinate);

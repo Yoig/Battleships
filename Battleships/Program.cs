@@ -46,16 +46,16 @@ namespace Battleships
             {
                 if (Data.Players.Peek() is Human)
                 {
+                    if (Data.State == Data.GameState.Ongoing)
+                    {
+                        Data.MessageSecondLine = "It's your turn!";
+                        View.Refresh();
+                    }
                     var command = ReadValidInput();
                     switch (Input.GetOptionType(command))
                     {
                         case Input.OptionType.Menu:
-                            if(command.ToLower() == "changescreencomputer")
-                                Menu.ChangeScreen(gameScreenComputer);
-                            else if (command.ToLower() == "changescreenhuman")
-                                Menu.ChangeScreen(gameScreenHuman);
-                            else
-                                Menu.Option(command);
+                            Menu.Option(command);
                             break;
                         case Input.OptionType.Game:
                             ManageTurn(command);
@@ -86,23 +86,25 @@ namespace Battleships
             switch (outcome)
             {
                 case Rules.FieldType.Mishit:
+                    Data.MessageFirstLine = Data.Players.Peek() + " - Mishit!";
                     Data.Players.Enqueue(Data.Players.Dequeue());
                     break;
                 case Rules.FieldType.Last:
-                    Data.State = Data.GameState.Ended;
-                    Data.Winner = Data.Players.Peek();
+                    Data.MessageFirstLine = "That was last battleship!";
                     View.Refresh();
-                    Thread.Sleep(4000);
+                    Data.Winner = Data.Players.Peek();
+                    Thread.Sleep(3000);
                     Menu.Exit();
                     break;
                 case Rules.FieldType.Sunken:
+                    Data.MessageFirstLine = Data.Players.Peek().Opponent + "'s battleship destroyed!";
                     break;
                 case Rules.FieldType.Hit:
+                    Data.MessageFirstLine = Data.Players.Peek().Opponent + "'s battleship hit!";
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-
             View.Refresh();
         }
 

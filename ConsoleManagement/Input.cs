@@ -52,7 +52,7 @@ namespace ConsoleManagement
             return OptionType.Error;
         }
 
-        private static bool IsMenuType(string s) => s == "start" || s == "exit" || s == "changescreencomputer" || s == "changescreenhuman";
+        private static bool IsMenuType(string s) => s == "start" || s == "exit";
 
         private static bool IsGameType(string s) => s.Length == 2 && s[0] >= 'a' && s[0] <= 'j' && s[1] >= '0' && s[1] <= '9';
     }
