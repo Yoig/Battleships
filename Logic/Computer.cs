@@ -28,7 +28,7 @@ namespace Logic
         {
             Data.MessageSecondLine = "Computer is making choice...";
             View.Refresh();
-            Thread.Sleep(3000);
+            Thread.Sleep(2000);
             ICoordinate coordinate = MakeShot();
             _previousShotCoordinate = coordinate;
             var shotResult = Opponent.ReceiveShot(coordinate);
