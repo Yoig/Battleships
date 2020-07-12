@@ -3,6 +3,9 @@ using LogicInterfaces;
 
 namespace Common
 {
+    /// <summary>
+    /// Contains information about current state of the game.
+    /// </summary>
     public static class Data
     {
         public enum GameState

@@ -12,6 +12,9 @@ namespace ConsoleManagement
             Data.ObservedGameScreen = gameScreen;
         }
 
+        /// <summary>
+        /// Shows specific view depending on current game state set in Data.
+        /// </summary>
         public static void Refresh()
         {
             Console.Clear();
@@ -35,6 +38,9 @@ namespace ConsoleManagement
             }
         }
 
+        /// <summary>
+        /// Shows help screen.
+        /// </summary>
         private static void ShowHelpView()
         {
             Console.WriteLine("Help screen");
@@ -49,6 +55,9 @@ namespace ConsoleManagement
             Console.WriteLine("To exit help screen type back");
         }
 
+        /// <summary>
+        /// Shows start screen.
+        /// </summary>
         private static void ShowStartView()
         {
             Console.WriteLine("Welcome to battleships!");
@@ -57,6 +66,9 @@ namespace ConsoleManagement
             Console.WriteLine("To start game type start");
         }
 
+        /// <summary>
+        /// Shows game screen.
+        /// </summary>
         private static void ShowOngoingView()
         {
             Console.WriteLine(Data.MessageFirstLine);
@@ -75,6 +87,9 @@ namespace ConsoleManagement
             Console.SetCursorPosition(0, CommandPositionY);
         }
 
+        /// <summary>
+        /// Shows ending screen.
+        /// </summary>
         private static void ShowEndView()
         {
             Console.WriteLine("Game has ended!");
@@ -83,6 +98,11 @@ namespace ConsoleManagement
             Console.WriteLine("Nobody has won!");
         }
 
+        /// <summary>
+        /// Draws gameboard interior in specified place on console.
+        /// </summary>
+        /// <param name="boardPosition"></param>
+        /// <param name="board"></param>
         private static void PrepareInterior(int boardPosition, IGameboard board)
         {
             for (var y = 0; y < 10; y++)
@@ -96,6 +116,12 @@ namespace ConsoleManagement
             }
         }
 
+        /// <summary>
+        /// Draw symbol for corresponding field type in specified place on console.
+        /// </summary>
+        /// <param name="rawBoard"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         private static void DrawField(Rules.FieldType[,] rawBoard, int x, int y)
         {
             switch (rawBoard[x, y])
@@ -125,6 +151,10 @@ namespace ConsoleManagement
             Console.ForegroundColor = ConsoleColor.White;
         }
 
+        /// <summary>
+        /// Draws gameboard borders in specified place on console.
+        /// </summary>
+        /// <param name="boardPositionX"></param>
         private static void PrepareBorders(int boardPositionX)
         {
             Console.BackgroundColor = ConsoleColor.DarkGray;

@@ -5,8 +5,16 @@ using LogicInterfaces;
 
 namespace Battleships
 {
+    /// <summary>
+    /// Manages options specified by user.
+    /// </summary>
     internal static class Menu
     {
+        /// <summary>
+        /// Invokes specific private functions depending on the option.
+        /// Possible options are: start, exit, help, back.
+        /// </summary>
+        /// <param name="option"></param>
         public static void Option(string option)
         {
             if(option.ToLower() == "start")
@@ -53,12 +61,6 @@ namespace Battleships
         public static void Exit()
         {
             Data.State = Data.GameState.Ended;
-        }
-
-        public static void ChangeScreen(IGameScreen gameScreen)
-        {
-            Data.ObservedGameScreen = gameScreen;
-            View.Refresh();
         }
     }
 }

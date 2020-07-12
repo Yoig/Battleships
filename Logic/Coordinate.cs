@@ -4,8 +4,15 @@ using LogicInterfaces;
 
 namespace Logic
 {
+    /// <summary>
+    /// Representation of coordinates.
+    /// </summary>
     public struct Coordinate : ICoordinate
     {
+        /// <summary>
+        /// Make coordinate from string in the form of letter + digit. e.g a7
+        /// </summary>
+        /// <param name="raw"></param>
         public Coordinate(string raw)
         {
             raw = raw.ToLower();
@@ -21,6 +28,12 @@ namespace Logic
             this.Y = coordinate.Y;
         }
 
+        /// <summary>
+        /// Return direction of target relative to second coordinate.
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="relativeTo"></param>
+        /// <returns></returns>
         public static Rules.Direction DetermineDirection(ICoordinate target, ICoordinate relativeTo)
         {
             if (target.Y == relativeTo.Y)
@@ -36,6 +49,10 @@ namespace Logic
             return Rules.Direction.All;
         }
 
+        /// <summary>
+        /// Returns randomly generated valid coordinate.
+        /// </summary>
+        /// <returns></returns>
         public static ICoordinate Random()
         {
             ICoordinate coordinate = new Coordinate("a0");
@@ -45,6 +62,12 @@ namespace Logic
             return coordinate;
         }
 
+        /// <summary>
+        /// Returns coordinate moved by amount in direction. If result coordinate went beyond board, throws exception.
+        /// </summary>
+        /// <param name="amount"></param>
+        /// <param name="direction"></param>
+        /// <returns></returns>
         public ICoordinate Move(int amount, Rules.Direction? direction)
         {
             switch (direction)
@@ -102,16 +125,17 @@ namespace Logic
             return coordinate;
         }
 
-        ICoordinate ICoordinate.NextCoordinate(ICoordinate coordinate)
-        {
-            return NextCoordinate(coordinate);
-        }
-
         public override string ToString()
         {
             return _raw;
         }
 
+        /// <summary>
+        /// Return distance between two coordinates.
+        /// </summary>
+        /// <param name="beginning"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
         public static double Distance(ICoordinate beginning, ICoordinate end)
         {
             var XDifference = Math.Abs(beginning.X - end.X);
@@ -119,6 +143,11 @@ namespace Logic
             return Math.Sqrt(XDifference * XDifference + YDifference * YDifference);
         }
 
+        /// <summary>
+        /// Return coordinate moved to the right. If it would move coordinate beyond board, moves it at the beginning of the below line.
+        /// </summary>
+        /// <param name="coordinate"></param>
+        /// <returns></returns>
         public static ICoordinate NextCoordinate(ICoordinate coordinate)
         {
             var next = (Coordinate)coordinate;
@@ -141,11 +170,21 @@ namespace Logic
             return next;
         }
 
+        ICoordinate ICoordinate.NextCoordinate(ICoordinate coordinate)
+        {
+            return NextCoordinate(coordinate);
+        }
+
         public int X { get; set; }
         public int Y { get; set; }
 
         private string _raw;
 
+        /// <summary>
+        /// Returns opposite direction of direction given.
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <returns></returns>
         public static Rules.Direction OppositeDirection(Rules.Direction? direction)
         {
             switch (direction)
@@ -163,6 +202,11 @@ namespace Logic
             }
         }
 
+        /// <summary>
+        /// Returns next direction clockwise.
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <returns></returns>
         public static Rules.Direction? NextDirection(Rules.Direction? direction)
         {
             switch (direction)

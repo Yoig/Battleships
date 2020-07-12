@@ -2,6 +2,9 @@
 
 namespace Game
 {
+    /// <summary>
+    /// Parameters of game.
+    /// </summary>
     public struct Rules
     {
         public enum FieldType

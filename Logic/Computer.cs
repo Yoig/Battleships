@@ -7,6 +7,9 @@ using LogicInterfaces;
 
 namespace Logic
 {
+    /// <summary>
+    /// AI player.
+    /// </summary>
     public class Computer : IPlayer
     {
         private Rules.FieldType _previousShotOutcome = Rules.FieldType.Mishit;
@@ -23,6 +26,11 @@ namespace Logic
         public IPlayer Opponent { get; private set; }
         public IGameScreen GameScreen { get; }
 
+        /// <summary>
+        /// Manages proper turn actions like shooting.
+        /// </summary>
+        /// <param name="option"></param>
+        /// <returns></returns>
         public Rules.FieldType PlayTurn(string option)
         {
             Data.MessageSecondLine = "Computer is making choice...";
@@ -36,6 +44,10 @@ namespace Logic
             return shotResult;
         }
 
+        /// <summary>
+        /// Generates coordinates in smart way. When battleship is hit, next coordinate will be generated to sunk that ship.
+        /// </summary>
+        /// <returns></returns>
         private ICoordinate MakeShot()
         {
             var random = new Random();
@@ -100,6 +112,11 @@ namespace Logic
             return coordinate;
         }
 
+        /// <summary>
+        /// Sets next direction clockwise. If board end is in specified direction, it skips to next direction.
+        /// </summary>
+        /// <param name="coordinate"></param>
+        /// <returns></returns>
         private Rules.Direction? TryGuessDirection(ICoordinate coordinate)
         {
             bool directionIsGood = false;
@@ -122,12 +139,18 @@ namespace Logic
             return _guessShootingDirection;
         }
 
+        /// <summary>
+        /// Prepares board to play.
+        /// </summary>
         public void Setup()
         {
             PlaceBattleships();
             GameScreen.SetBattleshipsRemaining(Rules.Battleships.Count);
         }
 
+        /// <summary>
+        /// Places battleships on board in random way, but battleships cannot touch each other with sides.
+        /// </summary>
         private void PlaceBattleships()
         {
             foreach (var battleship in Rules.Battleships)
@@ -162,6 +185,11 @@ namespace Logic
             Opponent = opponent;
         }
 
+        /// <summary>
+        /// Marks shot on own gameboard, and checks shot result (like sunken, mishit). 
+        /// </summary>
+        /// <param name="coordinate"></param>
+        /// <returns></returns>
         public Rules.FieldType ReceiveShot(ICoordinate coordinate)
         {
             return GameScreen.receiveShot(coordinate);

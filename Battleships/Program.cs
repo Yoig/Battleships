@@ -37,6 +37,11 @@ namespace Battleships
             Rules.Battleships.Add("Submarine", 1);
         }
 
+        /// <summary>
+        /// Invokes function in proper order. Manages turn sequence.
+        /// </summary>
+        /// <param name="gameScreenComputer"></param>
+        /// <param name="gameScreenHuman"></param>
         private static void GameLoop(IGameScreen gameScreenComputer, IGameScreen gameScreenHuman)
         {
             while (Data.State != Data.GameState.Ended)
@@ -72,6 +77,10 @@ namespace Battleships
             }
         }
 
+        /// <summary>
+        /// Manages specific turn. Updates view with messages what is currently going on.
+        /// </summary>
+        /// <param name="command"></param>
         private static void ManageTurn(string command)
         {
             if (Data.State != Data.GameState.Ongoing)
@@ -111,6 +120,10 @@ namespace Battleships
             computerPlayer.SetOpponent(humanPlayer);
         }
 
+        /// <summary>
+        /// Takes input from user and checks if it is valid.
+        /// </summary>
+        /// <returns></returns>
         private static string ReadValidInput()
         {
             var command = "";
