@@ -8,13 +8,13 @@ namespace Logic
 {
     public class Human : IPlayer
     {
-        public Human(IGameScreen screen)
+        public Human(IGameScreen gameScreen)
         {
-            Screen = screen;
+            GameScreen = gameScreen;
         }
 
         public IPlayer Opponent { get; private set; }
-        public IGameScreen Screen { get; }
+        public IGameScreen GameScreen { get; }
 
         public Rules.FieldType PlayTurn(string option)
         {
@@ -37,13 +37,14 @@ namespace Logic
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-
+            GameScreen.MarkField(coordinate, shotResult);
             return shotResult;
         }
 
         public void Setup()
         {
             PlaceBattleships();
+            GameScreen.SetBattleshipsRemaining(Rules.Battleships.Count);
         }
 
         private void PlaceBattleships()
@@ -64,7 +65,7 @@ namespace Logic
                         end = end.Move(0, Rules.Direction.Up);
                         if (Coordinate.Distance(beginning, end) != battleship.Value - 1)
                             throw new ArgumentException();
-                        Screen.PlaceBattleship(beginning, end);
+                        GameScreen.PlaceBattleship(beginning, end);
                     }
                     catch (ArgumentOutOfRangeException e)
                     {
@@ -109,7 +110,12 @@ namespace Logic
 
         public Rules.FieldType ReceiveShot(ICoordinate coordinate)
         {
-            return Screen.receiveShot(coordinate);
+            return GameScreen.receiveShot(coordinate);
+        }
+
+        public override string ToString()
+        {
+            return "Human";
         }
     }
 }

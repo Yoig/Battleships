@@ -5,6 +5,7 @@ using System.Threading;
 using Common;
 using ConsoleManagement;
 using Game;
+using LogicInterfaces;
 
 namespace Battleships
 {
@@ -37,6 +38,12 @@ namespace Battleships
         public static void Exit()
         {
             Data.State = Data.GameState.Ended;
+        }
+
+        public static void ChangeScreen(IGameScreen gameScreen)
+        {
+            Data.ObservedGameScreen = gameScreen;
+            View.Refresh();
         }
     }
 }

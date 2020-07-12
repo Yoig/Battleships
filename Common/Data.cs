@@ -20,8 +20,8 @@ namespace Common
             public const string WrongInput = "Wrong command! Please, type again";
         }
         public static GameState State { get; set; } = GameState.NotStarted;
-        public static IPlayer Winner { get; set; }
+        public static IPlayer Winner { get; set; } = null;
         public static Queue<IPlayer> Players { get; set; } = new Queue<IPlayer>();
-        public static IGameScreen ObseGameScreen { get; set; }
+        public static IGameScreen ObservedGameScreen { get; set; }
     }
 }

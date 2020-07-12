@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading;
 using Common;
 using Game;
@@ -10,21 +11,31 @@ namespace Logic
     {
         public Computer(IGameScreen screen)
         {
-            Screen = screen;
+            GameScreen = screen;
         }
 
         public IPlayer Opponent { get; private set; }
-        public IGameScreen Screen { get; }
+        public IGameScreen GameScreen { get; }
 
         public Rules.FieldType PlayTurn(string option)
         {
-            Thread.Sleep(1000);
-            throw new NotImplementedException();
+            Thread.Sleep(2000);
+            ICoordinate coordinate = MakeShot();
+            var shotResult = Opponent.ReceiveShot(coordinate);
+            GameScreen.MarkField(coordinate, shotResult);
+            return shotResult;
+        }
+
+        private ICoordinate MakeShot()
+        {
+            var random = new Random();
+            return new Coordinate("a" + random.Next(0,10));
         }
 
         public void Setup()
         {
             PlaceBattleships();
+            GameScreen.SetBattleshipsRemaining(Rules.Battleships.Count);
         }
 
         private void PlaceBattleships()
@@ -42,7 +53,7 @@ namespace Logic
                     try
                     {
                         end = beginning.Move(battleship.Value - 1, (Rules.Direction) random.Next(0, 4));
-                        Screen.PlaceBattleship(beginning, end);
+                        GameScreen.PlaceBattleship(beginning, end);
                     }
                     catch (ArgumentOutOfRangeException e)
                     {
@@ -63,7 +74,12 @@ namespace Logic
 
         public Rules.FieldType ReceiveShot(ICoordinate coordinate)
         {
-            return Screen.receiveShot(coordinate);
+            return GameScreen.receiveShot(coordinate);
+        }
+
+        public override string ToString()
+        {
+            return "Computer";
         }
     }
 }

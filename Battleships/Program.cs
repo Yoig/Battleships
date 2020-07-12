@@ -29,7 +29,7 @@ namespace Battleships
 
             View.Refresh();
 
-            GameLoop();
+            GameLoop(computerGameScreen, humanGameScreen);
         }
 
         private static void DefineBattleships()
@@ -40,7 +40,7 @@ namespace Battleships
             Rules.Battleships.Add("Submarine", 1);
         }
 
-        private static void GameLoop()
+        private static void GameLoop(IGameScreen gameScreenComputer, IGameScreen gameScreenHuman)
         {
             while (Data.State != Data.GameState.Ended)
             {
@@ -50,7 +50,12 @@ namespace Battleships
                     switch (Input.GetOptionType(command))
                     {
                         case Input.OptionType.Menu:
-                            Menu.Option(command);
+                            if(command.ToLower() == "changescreencomputer")
+                                Menu.ChangeScreen(gameScreenComputer);
+                            else if (command.ToLower() == "changescreenhuman")
+                                Menu.ChangeScreen(gameScreenHuman);
+                            else
+                                Menu.Option(command);
                             break;
                         case Input.OptionType.Game:
                             ManageTurn(command);
@@ -89,6 +94,10 @@ namespace Battleships
                     View.Refresh();
                     Thread.Sleep(4000);
                     Menu.Exit();
+                    break;
+                case Rules.FieldType.Sunken:
+                    break;
+                case Rules.FieldType.Hit:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

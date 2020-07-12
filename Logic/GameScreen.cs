@@ -15,12 +15,17 @@ namespace Logic
 
         public void MarkField(ICoordinate coordinate, Rules.FieldType shotResult)
         {
-            throw new System.NotImplementedException();
+            OpponentBoard.MarkField(coordinate, shotResult);
         }
 
         public Rules.FieldType receiveShot(ICoordinate coordinate)
         {
-            throw new System.NotImplementedException();
+            return OwnBoard.ReceiveShoot(coordinate);
+        }
+
+        public void SetBattleshipsRemaining(int battleshipsCount)
+        {
+            OwnBoard.BattleshipsRemaining = battleshipsCount;
         }
     }
 }

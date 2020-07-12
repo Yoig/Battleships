@@ -9,5 +9,6 @@ namespace LogicInterfaces
         void PlaceBattleship(ICoordinate beginning, ICoordinate end);
         void MarkField(ICoordinate coordinate, Rules.FieldType shotResult);
         Rules.FieldType receiveShot(ICoordinate coordinate);
+        void SetBattleshipsRemaining(int battleshipsCount);
     }
 }

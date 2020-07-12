@@ -36,7 +36,7 @@ namespace Logic
                     return Rules.Direction.Down;
                 else
                     return Rules.Direction.Up;
-            return Rules.Direction.Error;
+            return Rules.Direction.All;
         }
 
         public static ICoordinate Random()

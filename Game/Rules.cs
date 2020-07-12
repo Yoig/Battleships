@@ -22,7 +22,7 @@ namespace Game
             Down,
             Right,
             Left,
-            Error
+            All
         }
 
         public static int BoardSize { get; } = 10;

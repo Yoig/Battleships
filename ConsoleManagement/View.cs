@@ -10,7 +10,7 @@ namespace ConsoleManagement
     {
         public static void SetObservedGameScreen(IGameScreen gameScreen)
         {
-            Data.ObseGameScreen = gameScreen;
+            Data.ObservedGameScreen = gameScreen;
         }
 
         public static void Refresh()
@@ -53,8 +53,8 @@ namespace ConsoleManagement
             PrepareBorders(OwnBoardPositionX);
             PrepareBorders(OpponentBoardPositionX);
 
-            PrepareInterior(OwnBoardPositionX, Data.ObseGameScreen.OwnBoard);
-            PrepareInterior(OpponentBoardPositionX, Data.ObseGameScreen.OpponentBoard);
+            PrepareInterior(OwnBoardPositionX, Data.ObservedGameScreen.OwnBoard);
+            PrepareInterior(OpponentBoardPositionX, Data.ObservedGameScreen.OpponentBoard);
 
             Console.SetCursorPosition(0, CommandPositionY);
         }
@@ -62,7 +62,7 @@ namespace ConsoleManagement
         public static void ShowEndView()
         {
             Console.WriteLine("Game has ended!");
-            Console.WriteLine(Data.Winner + "has won!");
+            Console.WriteLine((Data.Winner.ToString() ?? "Nobody") + "has won!");
         }
 
         private static void PrepareInterior(int boardPosition, IGameboard board)
