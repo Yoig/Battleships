@@ -78,7 +78,7 @@ namespace Logic
                 if (RawBoard[upper.X, upper.Y] == fieldType)
                     return upper;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 // ignored
             }
@@ -157,7 +157,7 @@ namespace Logic
                 if (RawBoard[upper.X, upper.Y] == fieldType)
                     return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 // ignored
             }

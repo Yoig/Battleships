@@ -119,7 +119,7 @@ namespace Battleships
             {
                 command = Input.Read();
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
                 Data.MessageFirstLine = Data.PredefinedMessages.WrongInput;
                 View.Refresh();

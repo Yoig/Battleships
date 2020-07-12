@@ -62,15 +62,15 @@ namespace ConsoleManagement
         public static void ShowEndView()
         {
             Console.WriteLine("Game has ended!");
-            Console.WriteLine((Data.Winner.ToString() ?? "Nobody") + "has won!");
+            Console.WriteLine((Data.Winner.ToString() ?? "Nobody") + " has won!");
         }
 
         private static void PrepareInterior(int boardPosition, IGameboard board)
         {
-            for (var x = 0; x < 10; x++)
+            for (var y = 0; y < 10; y++)
             {
-                Console.SetCursorPosition(boardPosition, MessageSpaceY + 2 + x);
-                for (var y = 0; y < 10; y++)
+                Console.SetCursorPosition(boardPosition, MessageSpaceY + 2 + y);
+                for (var x = 0; x < 10; x++)
                 {
                     DrawField(board.RawBoard, x, y);
                     Console.Write(" ");
@@ -113,11 +113,11 @@ namespace ConsoleManagement
             for (var j = 0; j < 10; j++)
             {
                 Console.SetCursorPosition(boardPositionX + 2 * j, MessageSpaceY + 1);
-                Console.Write(j);
+                Console.Write((char)('A' + j));
                 Console.Write(" ");
 
                 Console.SetCursorPosition(boardPositionX - 2, MessageSpaceY + 2 + j);
-                Console.Write((char)('A' + j));
+                Console.Write(j);
             }
 
             Console.BackgroundColor = ConsoleColor.Black;

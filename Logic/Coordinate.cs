@@ -48,7 +48,7 @@ namespace Logic
             return coordinate;
         }
 
-        public ICoordinate Move(int amount, Rules.Direction direction)
+        public ICoordinate Move(int amount, Rules.Direction? direction)
         {
             switch (direction)
             {
@@ -105,21 +105,82 @@ namespace Logic
             return coordinate;
         }
 
+        ICoordinate ICoordinate.NextCoordinate(ICoordinate coordinate)
+        {
+            return NextCoordinate(coordinate);
+        }
+
         public override string ToString()
         {
             return _raw;
         }
-
-        public int X { get; private set; }
-        public int Y { get; private set; }
-
-        private string _raw;
 
         public static double Distance(ICoordinate beginning, ICoordinate end)
         {
             var XDifference = Math.Abs(beginning.X - end.X);
             var YDifference = Math.Abs(beginning.Y - end.Y);
             return Math.Sqrt(XDifference * XDifference + YDifference * YDifference);
+        }
+
+        public static ICoordinate NextCoordinate(ICoordinate coordinate)
+        {
+            var next = (Coordinate)coordinate;
+            try
+            {
+                next = (Coordinate)next.MoveRight(1);
+            }
+            catch (Exception)
+            {
+                next.X = 0;
+                try
+                {
+                    next = (Coordinate)next.MoveDown(1);
+                }
+                catch (Exception)
+                {
+                    next.Y = 0;
+                }
+            }
+            return next;
+        }
+
+        public int X { get; set; }
+        public int Y { get; set; }
+
+        private string _raw;
+
+        public static Rules.Direction OppositeDirection(Rules.Direction? direction)
+        {
+            switch (direction)
+            {
+                case Rules.Direction.Up:
+                    return Rules.Direction.Down;
+                case Rules.Direction.Left:
+                    return Rules.Direction.Right;
+                case Rules.Direction.Right:
+                    return Rules.Direction.Left;
+                case Rules.Direction.Down:
+                    return Rules.Direction.Up;
+                default:
+                    return Rules.Direction.All;
+            }
+        }
+
+        public static Rules.Direction? NextDirection(Rules.Direction? direction)
+        {
+            switch (direction)
+            {
+                case Rules.Direction.Up:
+                    return Rules.Direction.Right;
+                case Rules.Direction.Right:
+                    return Rules.Direction.Down;
+                case Rules.Direction.Down:
+                    return Rules.Direction.Left;
+                case Rules.Direction.Left:
+                    return Rules.Direction.Up;
+                default:
+                    return Rules.Direction.All;
+            }
         }
     }
 }

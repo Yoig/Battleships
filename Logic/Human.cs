@@ -67,12 +67,12 @@ namespace Logic
                             throw new ArgumentException();
                         GameScreen.PlaceBattleship(beginning, end);
                     }
-                    catch (ArgumentOutOfRangeException e)
+                    catch (ArgumentOutOfRangeException)
                     {
                         Data.MessageSecondLine = "Wrong coordinate!";
                         coordinatesValid = false;
                     }
-                    catch (ArgumentException e)
+                    catch (ArgumentException)
                     {
                         Data.MessageSecondLine = "Wrong ship position!";
                         coordinatesValid = false;
@@ -94,7 +94,7 @@ namespace Logic
                     var input = Input.ReadCoordinate(prompt);
                     coordinate = new Coordinate(input);
                 }
-                catch (ArgumentException e)
+                catch (ArgumentException)
                 {
                     coordinatesValid = false;
                 }
@@ -115,7 +115,7 @@ namespace Logic
 
         public override string ToString()
         {
-            return "Human";
+            return "Human Player";
         }
     }
 }

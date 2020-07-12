@@ -27,5 +27,10 @@ namespace Logic
         {
             OwnBoard.BattleshipsRemaining = battleshipsCount;
         }
+
+        public bool IsOpponentFieldEmpty(ICoordinate coordinate)
+        {
+            return OpponentBoard.RawBoard[coordinate.X, coordinate.Y] == Rules.FieldType.Empty;
+        }
     }
 }
